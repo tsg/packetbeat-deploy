@@ -14,12 +14,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define "esnode1" do |esnode|
         esnode.vm.box = "esnode1"
 
+        esnode.vm.network "forwarded_port", guest: 22, host: 2301
         esnode.vm.network "private_network", ip: "192.168.33.11"
+
     end
 
     config.vm.define "esnode2" do |esnode|
         esnode.vm.box = "esnode2"
 
+        esnode.vm.network "forwarded_port", guest: 22, host: 2302
         esnode.vm.network "private_network", ip: "192.168.33.12"
     end
 

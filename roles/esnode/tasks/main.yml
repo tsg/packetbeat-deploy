@@ -27,3 +27,4 @@
 
 - name: Install ES deb
   shell: dpkg -i --force-confnew /tmp/elasticsearch-{{ elasticsearch.version }}.deb
+  when: version_exists.stdout == 'no'
