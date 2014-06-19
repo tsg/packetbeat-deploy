@@ -5,3 +5,17 @@ elasticsearch:
   group: 'elasticsearch'
   download_url: 'https://download.elasticsearch.org/elasticsearch/elasticsearch'
   version: '1.2.1'
+
+
+  # configuration options
+  config:
+    cluster_name: "elasticsearch"
+    disable_scripting: true
+    limit_cache_size: true
+
+    # By default we let ES allocate half of the available
+    # memory on each host.
+    heap_size: "{{ ansible_memtotal_mb }}/2"
+
+    # mlockall will disable swapping for the ES process
+    mlockall: true

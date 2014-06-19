@@ -28,3 +28,14 @@
 - name: Install ES deb
   shell: dpkg -i --force-confnew /tmp/elasticsearch-{{ elasticsearch.version }}.deb
   when: version_exists.stdout == 'no'
+
+- name: ES configuration
+  template: src=elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml
+  notify: Restart ES
+
+- name: ES set heap size
+  action: >
+     lineinfile dest=/etc/init.d/elasticsearch state=present
+     regexp="^ES_HEAP_SIZE" insertafter="\#ES_HEAP_SIZE"
+     line="ES_HEAP_SIZE={{elasticsearch.config.heap_size}}m"
+  notify: Restart ES
