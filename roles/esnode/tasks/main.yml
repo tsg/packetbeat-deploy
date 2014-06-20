@@ -9,6 +9,32 @@
 - name: Configure user
   user: name={{ elasticsearch.user }} group={{ elasticsearch.group }} createhome=no
 
+- name: Install python-software-properties
+  apt: pkg=python-software-properties state=present update_cache=yes
+  tags: deps
+
+# Java tasks
+
+- name: Add Java7 repository
+  apt_repository: repo='deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main' state=present update_cache=yes
+  when: elasticsearch.install_java
+  tags: java
+
+- name: Add Java7 repository key
+  apt_key: url=hkp://keyserver.ubuntu.com:80 id=EEA14886 state=present
+  when: elasticsearch.install_java
+  tags: java
+
+- name: Accept Oracle license prior JDK installation
+  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections; echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections creates=/usr/lib/jvm/java-7-oracle
+  when: elasticsearch.install_java
+  tags: java
+
+- name: Install Java7
+  apt: pkg=oracle-java7-installer state=present update_cache=yes
+  when: elasticsearch.install_java
+  tags: java
+
 # check if already installed
 - shell: if [ -e /usr/share/elasticsearch/lib/elasticsearch-{{ elasticsearch.version }}.jar ]; then echo yes; else echo no; fi;
   register: version_exists
@@ -39,3 +65,5 @@
      regexp="^ES_HEAP_SIZE" insertafter="\#ES_HEAP_SIZE"
      line="ES_HEAP_SIZE={{elasticsearch.config.heap_size|int}}m"
   notify: Restart ES
+
+
