@@ -37,5 +37,5 @@
   action: >
      lineinfile dest=/etc/init.d/elasticsearch state=present
      regexp="^ES_HEAP_SIZE" insertafter="\#ES_HEAP_SIZE"
-     line="ES_HEAP_SIZE={{elasticsearch.config.heap_size}}m"
+     line="ES_HEAP_SIZE={{elasticsearch.config.heap_size|int}}m"
   notify: Restart ES
