@@ -6,6 +6,7 @@ elasticsearch:
   download_url: 'https://download.elasticsearch.org/elasticsearch/elasticsearch'
   version: '1.2.1'
   install_java: true
+  bind_iface: 'eth1'
 
   # configuration options
   config:

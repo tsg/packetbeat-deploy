@@ -66,4 +66,5 @@
      line="ES_HEAP_SIZE={{elasticsearch.config.heap_size|int}}m"
   notify: Restart ES
 
-
+- name: Start ES
+  service: name=elasticsearch state=started
