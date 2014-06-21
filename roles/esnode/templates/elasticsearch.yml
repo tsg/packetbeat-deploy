@@ -212,7 +212,7 @@ bootstrap.mlockall: true
 
 # Set both 'bind_host' and 'publish_host':
 #
-network.host: {{ hostvars[inventory_hostname]['ansible_' + elasticsearch.bind_iface]['ipv4']['address'] }}
+network.host: {{ elasticsearch.config.bind_ip }}
 
 # Set a custom port for the node to node communication (9300 by default):
 #

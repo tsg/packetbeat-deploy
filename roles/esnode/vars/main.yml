@@ -6,10 +6,14 @@ elasticsearch:
   download_url: 'https://download.elasticsearch.org/elasticsearch/elasticsearch'
   version: '1.2.1'
   install_java: true
-  bind_iface: 'eth1'
 
   # configuration options
   config:
+
+    bind_iface: 'eth1'
+    # detect IP from the network interface
+    bind_ip: "{{ ansible_eth1['ipv4']['address'] }}"
+
     cluster_name: "elasticsearch"
     disable_scripting: true
     limit_cache_size: true
@@ -20,3 +24,8 @@ elasticsearch:
 
     # mlockall will disable swapping for the ES process
     mlockall: true
+
+    # index settings
+    refresh_interval: "5s"
+    number_of_shards: 10
+    number_of_replicas: 1

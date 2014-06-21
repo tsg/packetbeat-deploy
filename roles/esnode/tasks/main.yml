@@ -68,3 +68,13 @@
 
 - name: Start ES
   service: name=elasticsearch state=started
+
+- name: Copy ES template file for Packetbeat
+  template: src=packetbeat.template.json dest=/tmp/packetbeat.template.json
+  register: es_template
+
+- name: Load template
+  shell: >
+      chdir=/tmp
+      curl -XPUT 'http://{{elasticsearch.config.bind_ip}}:9200/_template/packetbeat' -d @packetbeat.template.json
+  when: es_template.changed
