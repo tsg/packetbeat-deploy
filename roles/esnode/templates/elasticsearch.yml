@@ -212,7 +212,7 @@ bootstrap.mlockall: true
 
 # Set both 'bind_host' and 'publish_host':
 #
-network.host: {{ elasticsearch.config.bind_ip }}
+network.host: {{ elasticsearch_bind_ip }}
 
 # Set a custom port for the node to node communication (9300 by default):
 #

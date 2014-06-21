@@ -76,5 +76,5 @@
 - name: Load template
   shell: >
       chdir=/tmp
-      curl -XPUT 'http://{{elasticsearch.config.bind_ip}}:9200/_template/packetbeat' -d @packetbeat.template.json
+      curl -XPUT 'http://{{elasticsearch_bind_ip}}:9200/_template/packetbeat' -d @packetbeat.template.json
   when: es_template.changed
