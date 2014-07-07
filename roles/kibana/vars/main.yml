@@ -3,5 +3,5 @@ kibana:
     archive: kibana-3.1.0-packetbeat.tar.gz
 
     config:
-        server_name: localhost
+        server_name: "localhost"
         nginx_disable_default: true

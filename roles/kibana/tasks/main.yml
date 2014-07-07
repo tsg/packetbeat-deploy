@@ -1,5 +1,6 @@
 - name: Install nginx
   apt: pkg=nginx state=present update_cache=yes
+  tags: deps
 
 - name: Download Kibana
   get_url: url={{ kibana.url }}/{{ kibana.archive }} dest=/tmp/{{ kibana.archive }}

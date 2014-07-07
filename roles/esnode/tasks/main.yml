@@ -81,3 +81,15 @@
       chdir=/tmp
       curl -XPUT 'http://{{elasticsearch_bind_ip}}:9200/_template/packetbeat' -d @packetbeat.template.json
   when: es_template.changed
+
+- name: Download Packetbeat Dashboards
+  get_url: url={{ dashboards.url }}/{{ dashboards.archive }} dest=/tmp/{{ dashboards.archive }}
+  register: dashboards_archive
+
+- name: Uncompress Dashboards
+  command: chdir=/tmp/ tar xvf {{ dashboards.archive }}
+  when: dashboards_archive.changed
+
+- name: Load dashboards
+  command: chdir=/tmp/{{ dashboards.dir_name }} ./load.sh {{ elasticsearch_bind_ip }}
+  when: dashboards_archive.changed
