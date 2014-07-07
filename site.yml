@@ -4,3 +4,11 @@
   sudo: yes
   roles:
     - esnode
+  tags:
+    elasticsearch
+
+- name: Install Kibana on one of the nodes
+  hosts: esnode1
+  sudo: yes
+  roles:
+    - kibana

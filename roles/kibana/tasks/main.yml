@@ -1,0 +1,32 @@
+- name: Install nginx
+  apt: pkg=nginx state=present update_cache=yes
+
+- name: Download Kibana
+  get_url: url={{ kibana.url }}/{{ kibana.archive }} dest=/tmp/{{ kibana.archive }}
+  register: kibana_archive
+
+- name: Delete old installation
+  file: path=/var/www/kibana state=absent
+  when: kibana_archive.changed
+
+- name: Install kibana
+  script: install-kibana.sh {{ kibana.archive }} /var/www/kibana www-data
+  when: kibana_archive.changed
+
+- name: Install nginx conf
+  template: src=kibana.nginx.conf dest=/etc/nginx/sites-available/kibana mode=644
+  notify: nginx reload
+
+- name: Nginx enable site
+  file: state=link src=/etc/nginx/sites-available/kibana path=/etc/nginx/sites-enabled/kibana
+  notify: nginx reload
+
+- name: Nginx disable default site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  when: kibana.config.nginx_disable_default
+
+- name: Set default dashboard
+  lineinfile: >
+    dest=/var/www/kibana/config.js
+    regexp="^[ \t]*default_route[ \t]*: "
+    line='    default_route: "/dashboard/elasticsearch/Packetbeat%20Statistics",'
