@@ -21,7 +21,7 @@
   tags: java
 
 - name: Add Java7 repository key
-  apt_key: url=hkp://keyserver.ubuntu.com:80 id=EEA14886 state=present
+  apt_key: keyserver=keyserver.ubuntu.com id=EEA14886 state=present
   when: elasticsearch.install_java
   tags: java
 
@@ -68,6 +68,9 @@
 
 - name: Start ES
   service: name=elasticsearch state=started
+
+- name: Wait for ES to start
+  wait_for: host={{ elasticsearch_bind_ip }} port=9200
 
 - name: Copy ES template file for Packetbeat
   template: src=packetbeat.template.json dest=/tmp/packetbeat.template.json
