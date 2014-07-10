@@ -1,3 +1,6 @@
 [esnodes]
 esnode1:2301
 esnode2:2302
+
+[logstashes]
+logstash:2303

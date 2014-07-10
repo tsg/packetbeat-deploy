@@ -2,13 +2,20 @@
 - name: Install Elasticsearch nodes
   hosts: esnodes
   sudo: yes
+  tags: elasticsearch
   roles:
     - esnode
-  tags:
-    elasticsearch
 
 - name: Install Kibana on one of the nodes
   hosts: esnode1
   sudo: yes
+  tags: kibana
   roles:
     - kibana
+
+- name: Install Logstash and Redis
+  hosts: logstash
+  sudo: yes
+  tags: logstash
+  roles:
+    - logstash

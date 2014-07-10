@@ -26,5 +26,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         esnode.vm.network "private_network", ip: "192.168.33.12"
     end
 
+    config.vm.define "logstash" do |logstash|
+        logstash.vm.box = "logstash"
+
+        logstash.vm.network "forwarded_port", guest: 22, host: 2303
+        logstash.vm.network "private_network", ip: "192.168.33.13"
+    end
     config.vm.synced_folder ".", "/vagrant"
 end
