@@ -1,2 +1,11 @@
-logstash:
+logcentral:
     logstash_version: "1.4"
+
+    config:
+        bind_iface: 'eth1'
+
+        redis_packetbeat_key: "packetbeat"
+        elasticsearch_cluster_name: "elasticsearch"
+
+# Auto-detect IP address to bind on based on the configured network interface
+logcentral_bind_ip: "{{ hostvars[inventory_hostname]['ansible_' + logcentral.config.bind_iface ].ipv4.address }}"

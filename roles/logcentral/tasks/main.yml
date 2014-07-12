@@ -18,7 +18,7 @@
   notify: Restart Redis
 
 - name: Add Logstash repository
-  apt_repository: repo="deb http://packages.elasticsearch.org/logstash/{{ logstash.logstash_version }}/debian stable main" state=present
+  apt_repository: repo="deb http://packages.elasticsearch.org/logstash/{{ logcentral.logstash_version }}/debian stable main" state=present
 
 - name: Add Logstash repository  key
   apt_key: url="http://packages.elasticsearch.org/GPG-KEY-elasticsearch" state=present
@@ -28,3 +28,7 @@
   with_items:
    - logstash
    - logstash-contrib
+
+- name: Install Logstash packetbeat configuration
+  template: src=logstash_packetbeat.conf dest=/etc/logstash/conf.d/logstash_packetbeat.conf
+  notify: Restart Logstash
