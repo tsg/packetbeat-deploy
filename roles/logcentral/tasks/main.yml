@@ -9,6 +9,14 @@
    - python-apt
   tags: deps
 
+- name: Have Redis listen on all interfaces
+  lineinfile: dest=/etc/redis/redis.conf regexp="^bind " line="bind 0.0.0.0"
+  notify: Restart Redis
+
+- name: Disable Redis background saving
+  replace: dest=/etc/redis/redis.conf regexp="^save (.+)$" replace="#save \1"
+  notify: Restart Redis
+
 - name: Add Logstash repository
   apt_repository: repo="deb http://packages.elasticsearch.org/logstash/{{ logstash.logstash_version }}/debian stable main" state=present
 
