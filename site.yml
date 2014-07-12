@@ -13,9 +13,9 @@
   roles:
     - kibana
 
-- name: Install Logstash and Redis
-  hosts: logstash
+- name: Install Logstash and Redis on a central node
+  hosts: logcentral
   sudo: yes
-  tags: logstash
+  tags: logcentral
   roles:
-    - logstash
+    - logcentral
