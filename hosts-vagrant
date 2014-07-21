@@ -4,3 +4,6 @@ esnode2:2302
 
 [logcentral]
 logcentral:2303
+
+[apps]
+app-deb-1:2304

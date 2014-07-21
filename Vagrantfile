@@ -33,4 +33,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         logcentral.vm.network "private_network", ip: "192.168.33.13"
     end
     config.vm.synced_folder ".", "/vagrant"
+
+    config.vm.define "app-deb-1" do |app|
+        app.vm.box = "app-deb-1"
+
+        app.vm.network "forwarded_port", guest: 22, host: 2304
+        app.vm.network "private_network", ip: "192.168.33.14"
+    end
+    config.vm.synced_folder ".", "/vagrant"
 end

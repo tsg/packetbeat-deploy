@@ -19,3 +19,10 @@
   tags: logcentral
   roles:
     - logcentral
+
+- name: Install the Packetbeat agent
+  hosts: apps
+  sudo: yes
+  tags: packetbeat
+  roles:
+    - packetbeat
