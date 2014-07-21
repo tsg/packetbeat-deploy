@@ -13,6 +13,10 @@
   lineinfile: dest=/etc/redis/redis.conf regexp="^bind " line="bind 0.0.0.0"
   notify: Restart Redis
 
+- name: Change Redis default port
+  lineinfile: dest=/etc/redis/redis.conf regexp="^port " line="port {{ logcentral.config.redis_port }}"
+  notify: Restart Redis
+
 - name: Disable Redis background saving
   replace: dest=/etc/redis/redis.conf regexp="^save (.+)$" replace="#save \1"
   notify: Restart Redis

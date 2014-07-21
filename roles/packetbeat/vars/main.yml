@@ -1,5 +1,56 @@
+logcentral_bind_iface: "eth1"
+logcentral_bind_ip: "{{ hostvars[groups['logcentral'][0]]['ansible_' + logcentral_bind_iface ].ipv4.address }}"
+
 packetbeat:
     version: 0.3.1
 
     deb:
         arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else 'i386' }}"
+
+    config:
+        interface:
+            device: "any"
+        output:
+            elasticsearch:
+                enabled: "false"
+                host: ""
+                port: 9200
+                save_topology: "false"
+            redis:
+                enabled: "true"
+                host: "{{ logcentral_bind_ip }}"
+                port: 6380
+                save_topology: "true"
+
+        protocols:
+            http:
+                enabled: true
+                ports:
+                    - 80
+                    - 8080
+            mysql:
+                enabled: true
+                ports:
+                    - 3306
+            pgsql:
+                enabled: true
+                ports:
+                    - 5432
+            redis:
+                enabled: true
+                ports:
+                    - 6379
+
+        processes:
+            mysqld:
+                enabled: true
+                cmdline_grep: "mysqld"
+            pgsql:
+                enabled: true
+                cmdline_grep: "postgres"
+            nginx:
+                enabled: true
+                cmdline_grep: "nginx"
+            redis:
+                enabled: true
+                cmdline_grep: "redis"

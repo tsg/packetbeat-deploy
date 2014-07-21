@@ -20,3 +20,5 @@
   apt: deb=/tmp/packetbeat_{{ packetbeat.version }}-1_{{ packetbeat.deb.arch }}.deb
   when: installed_version.stdout != '{{ packetbeat.version }}'
 
+- name: Configure Packetbeat
+  template: src=packetbeat.conf dest=/etc/packetbeat/packetbeat.conf
