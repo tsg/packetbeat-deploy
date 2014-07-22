@@ -41,4 +41,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         app.vm.network "private_network", ip: "192.168.33.14"
     end
     config.vm.synced_folder ".", "/vagrant"
+
+    config.vm.define "app-centos-1" do |app|
+        app.vm.box = "app-centos-1"
+        app.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box"
+
+        app.vm.network "forwarded_port", guest: 22, host: 2305
+        app.vm.network "private_network", ip: "192.168.33.15"
+    end
+    config.vm.synced_folder ".", "/vagrant"
 end

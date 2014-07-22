@@ -1,0 +1,17 @@
+- name: Install Packetbeat dependencies
+  yum: name={{ item }} state=present
+  with_items:
+        - http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
+        - libpcap
+        - daemonize
+  tags: deps
+
+- name: Check if Packetbeat is already at the right version
+  shell: rpm -qi libpcap | grep Version | awk '{print $3}'
+  register: installed_version
+  always_run: True
+  ignore_errors: True
+
+- name: Install Packetbeat agent
+  yum: name=https://github.com/packetbeat/packetbeat/releases/download/v{{ packetbeat.version }}/packetbeat-{{ packetbeat.version }}-1.el6.{{ packetbeat.rpm.arch }}.rpm state=present
+  when: installed_version.stdout != '{{ packetbeat.version }}'
