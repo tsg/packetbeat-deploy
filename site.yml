@@ -26,3 +26,4 @@
   tags: packetbeat
   roles:
     - packetbeat
+    - logstash
