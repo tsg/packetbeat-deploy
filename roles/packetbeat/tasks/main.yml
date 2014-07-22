@@ -22,3 +22,6 @@
 
 - name: Configure Packetbeat
   template: src=packetbeat.conf dest=/etc/packetbeat/packetbeat.conf
+
+- name: Start Packetbeat
+  service: name=packetbeat state=started
