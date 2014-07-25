@@ -4,9 +4,13 @@
 - include: redhat.yml
   when: ansible_os_family == 'RedHat'
 
-- name: Install logstash configuration files
-  template: src=logstash.conf dest=/etc/logstash/conf.d/logstash_{{ item.key }}.conf
+- name: Install logstash fileinput configuration files
+  template: src=logstash_fileinput.conf dest=/etc/logstash/conf.d/00logstash_{{ item.key }}.conf
   with_dict: logstash.config.file_inputs
+  notify: Restart Logstash
+
+- name: Install logstash output configuration file
+  template: src=logstash_output.conf dest=/etc/logstash/conf.d/99logstash_output.conf
   notify: Restart Logstash
 
 - name: Start Logstash

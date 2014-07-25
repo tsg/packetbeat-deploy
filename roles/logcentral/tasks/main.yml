@@ -36,7 +36,3 @@
 - name: Install Logstash packetbeat configuration
   template: src=logstash_packetbeat.conf dest=/etc/logstash/conf.d/logstash_packetbeat.conf
   notify: Restart Logstash
-
-- name: Install Logstash indexer configuration
-  template: src=logstash_indexer.conf dest=/etc/logstash/conf.d/logstash_indexer.conf
-  notify: Restart Logstash
