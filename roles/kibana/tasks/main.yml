@@ -6,6 +6,9 @@
   get_url: url={{ kibana.url }}/{{ kibana.archive }} dest=/tmp/{{ kibana.archive }}
   register: kibana_archive
 
+- name: Make install directory
+  file: path=/var/www state=directory owner=www-data group=www-data mode=755
+
 - name: Delete old installation
   file: path=/var/www/kibana state=absent
   when: kibana_archive.changed
