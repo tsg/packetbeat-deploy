@@ -14,7 +14,7 @@
   notify: Restart Redis
 
 - name: Change Redis default port
-  lineinfile: dest=/etc/redis/redis.conf regexp="^port " line="port {{ logcentral.config.redis_port }}"
+  lineinfile: dest=/etc/redis/redis.conf regexp="^port " line="port {{ aggregator.config.redis_port }}"
   notify: Restart Redis
 
 - name: Disable Redis background saving
@@ -22,7 +22,7 @@
   notify: Restart Redis
 
 - name: Add Logstash repository
-  apt_repository: repo="deb http://packages.elasticsearch.org/logstash/{{ logcentral.logstash_version }}/debian stable main" state=present
+  apt_repository: repo="deb http://packages.elasticsearch.org/logstash/{{ aggregator.logstash_version }}/debian stable main" state=present
 
 - name: Add Logstash repository key
   apt_key: url="http://packages.elasticsearch.org/GPG-KEY-elasticsearch" state=present

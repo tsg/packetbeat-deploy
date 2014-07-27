@@ -15,7 +15,7 @@ logstash:
                 path: "/var/log/nginx/error.log"
 
 
-logcentral_bind_iface: "eth1"
-logcentral_bind_ip: "{{ hostvars[groups['logcentral'][0]]['ansible_' + logcentral_bind_iface ].ipv4.address }}"
-logcentral_redis_port: 6380
+aggregator_bind_iface: "eth1"
+aggregator_bind_ip: "{{ hostvars[groups['aggregator'][0]]['ansible_' + aggregator_bind_iface ].ipv4.address }}"
+aggregator_redis_port: 6380
 

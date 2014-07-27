@@ -6,24 +6,18 @@
   roles:
     - esnode
 
-- name: Install Kibana on one of the nodes
-  hosts: esnode1
+- name: Install Logstash, Redis and Kibana on a central node
+  hosts: aggregator
   sudo: yes
-  tags: kibana
+  tags: aggregator
   roles:
+    - aggregator
     - kibana
 
-- name: Install Logstash and Redis on a central node
-  hosts: logcentral
-  sudo: yes
-  tags: logcentral
-  roles:
-    - logcentral
-
-- name: Install the Packetbeat agent
+- name: Install the Packetbeat and Logstash agents
   hosts: apps
   sudo: yes
-  tags: packetbeat
+  tags: apps
   roles:
     - packetbeat
     - logstash

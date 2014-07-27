@@ -26,11 +26,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         esnode.vm.network "private_network", ip: "192.168.33.12"
     end
 
-    config.vm.define "logcentral" do |logcentral|
-        logcentral.vm.box = "logcentral"
+    config.vm.define "aggregator" do |aggregator|
+        aggregator.vm.box = "aggregator"
 
-        logcentral.vm.network "forwarded_port", guest: 22, host: 2303
-        logcentral.vm.network "private_network", ip: "192.168.33.13"
+        aggregator.vm.network "forwarded_port", guest: 22, host: 2303
+        aggregator.vm.network "private_network", ip: "192.168.33.13"
     end
     config.vm.synced_folder ".", "/vagrant"
 

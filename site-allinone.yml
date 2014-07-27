@@ -1,13 +1,12 @@
 
 ---
 - name: Install Packetbeat monitoring system
-  hosts: logcentral
+  hosts: centralnode
   sudo: yes
-  tags: elasticsearch
   roles:
     - esnode
     - kibana
-    - logcentral
+    - aggregator
 
 
 - name: Install the Packetbeat and Logstash agents

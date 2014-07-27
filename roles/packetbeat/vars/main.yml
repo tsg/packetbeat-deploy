@@ -1,5 +1,5 @@
-logcentral_bind_iface: "eth1"
-logcentral_bind_ip: "{{ hostvars[groups['logcentral'][0]]['ansible_' + logcentral_bind_iface ].ipv4.address }}"
+aggregator_bind_iface: "eth1"
+aggregator_bind_ip: "{{ hostvars[groups['aggregator'][0]]['ansible_' + aggregator_bind_iface ].ipv4.address }}"
 
 packetbeat:
     version: 0.3.1
@@ -21,7 +21,7 @@ packetbeat:
                 save_topology: "false"
             redis:
                 enabled: "true"
-                host: "{{ logcentral_bind_ip }}"
+                host: "{{ aggregator_bind_ip }}"
                 port: 6380
                 save_topology: "true"
 
