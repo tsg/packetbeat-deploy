@@ -1,5 +1,5 @@
 [aggregator]
-aggregator:2303
+aggregator:2303 main_iface=eth1
 
 [apps]
 app-deb-1:2304

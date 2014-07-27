@@ -2,7 +2,7 @@ aggregator:
     logstash_version: "1.4"
 
     config:
-        bind_iface: 'eth1'
+        bind_iface: "{{ hostvars[inventory_hostname].get('main_iface', 'eth0') }}"
 
         redis_port: 6380
 

@@ -2,9 +2,13 @@
 esnode1:2301
 esnode2:2302
 
+[esnodes:vars]
+main_iface=eth1
+
 [aggregator]
-aggregator:2303
+aggregator:2303 main_iface=eth1
 
 [apps]
 app-deb-1:2304
 app-centos-1:2305
+

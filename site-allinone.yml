@@ -1,7 +1,8 @@
 
 ---
 - name: Install Packetbeat monitoring system
-  hosts: centralnode
+  hosts: aggregator
+  tags: aggregator
   sudo: yes
   roles:
     - esnode
@@ -12,7 +13,7 @@
 - name: Install the Packetbeat and Logstash agents
   hosts: apps
   sudo: yes
-  tags: packetbeat
+  tags: apps
   roles:
     - packetbeat
     - logstash
