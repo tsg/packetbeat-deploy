@@ -1,0 +1,19 @@
+
+---
+- name: Install Packetbeat monitoring system
+  hosts: logcentral
+  sudo: yes
+  tags: elasticsearch
+  roles:
+    - esnode
+    - kibana
+    - logcentral
+
+
+- name: Install the Packetbeat and Logstash agents
+  hosts: apps
+  sudo: yes
+  tags: packetbeat
+  roles:
+    - packetbeat
+    - logstash
