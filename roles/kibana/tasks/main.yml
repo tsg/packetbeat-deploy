@@ -29,6 +29,9 @@
   file: path=/etc/nginx/sites-enabled/default state=absent
   when: kibana.config.nginx_disable_default
 
+- name: Nginx start
+  service: name=nginx state=started
+
 - name: Set default dashboard
   lineinfile: >
     dest=/var/www/kibana/config.js

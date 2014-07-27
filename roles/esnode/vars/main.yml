@@ -27,12 +27,12 @@ elasticsearch:
     # index settings
     refresh_interval: "5s"
     number_of_shards: 10
-    number_of_replicas: 1
+    number_of_replicas: 0
 
 dashboards:
     url: "https://github.com/packetbeat/dashboards/archive"
-    archive: "v0.2.1.tar.gz"
-    dir_name: "dashboards-0.2.1"
+    archive: "v0.3.1.tar.gz"
+    dir_name: "dashboards-0.3.1"
 
 # Auto-detect IP address to bind on based on the configured network interface
 elasticsearch_bind_ip: "{{ hostvars[inventory_hostname]['ansible_' + elasticsearch.config.bind_iface ].ipv4.address }}"
