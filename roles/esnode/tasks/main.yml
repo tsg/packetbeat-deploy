@@ -1,22 +1,7 @@
-- name: Add Java7 repository
-  apt_repository: repo='deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main' state=present update_cache=yes
-  when: elasticsearch.install_java
-  tags: java
-
-- name: Add Java7 repository key
-  apt_key: keyserver=keyserver.ubuntu.com id=EEA14886 state=present
-  when: elasticsearch.install_java
-  tags: java
-
-- name: Accept Oracle license prior JDK installation
-  shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections; echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections creates=/usr/lib/jvm/java-7-oracle
-  when: elasticsearch.install_java
-  tags: java
-
+---
 - name: Install Java7
-  apt: pkg=oracle-java7-installer state=present update_cache=yes
-  when: elasticsearch.install_java
-  tags: java
+  apt: pkg=java7-runtime-headless update_cache=yes state=present
+  tags: deps
 
 - name: Add Elasticsearch repository
   apt_repository: repo="deb http://packages.elasticsearch.org/elasticsearch/{{ elasticsearch.version }}/debian stable main" state=present

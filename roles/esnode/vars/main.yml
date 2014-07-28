@@ -1,11 +1,10 @@
 elasticsearch:
   version: '1.2'
-  install_java: true
 
   # configuration options
   config:
 
-    cluster_name: "elasticsearch"
+    cluster_name: "packetbeat"
     disable_scripting: true
     limit_cache_size: true
 
