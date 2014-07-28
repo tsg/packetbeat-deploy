@@ -19,7 +19,7 @@ elasticsearch:
     # index settings
     refresh_interval: "5s"
     number_of_shards: 10
-    number_of_replicas: 0
+    number_of_replicas: "{{ 1 if 'esnodes' in groups else 0 }}"
 
 dashboards:
     url: "https://github.com/packetbeat/dashboards/archive"
