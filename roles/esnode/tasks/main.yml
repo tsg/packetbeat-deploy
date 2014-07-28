@@ -1,20 +1,3 @@
-- name: Install Elasticsearch dependencies
-  apt: pkg={{ item }} state=present update_cache=yes
-  with_items: elasticsearch.dependencies
-  tags: deps
-
-- name: Configure group
-  group: name={{ elasticsearch.group }}
-
-- name: Configure user
-  user: name={{ elasticsearch.user }} group={{ elasticsearch.group }} createhome=no
-
-- name: Install python-software-properties
-  apt: pkg=python-software-properties state=present update_cache=yes
-  tags: deps
-
-# Java tasks
-
 - name: Add Java7 repository
   apt_repository: repo='deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main' state=present update_cache=yes
   when: elasticsearch.install_java
@@ -35,25 +18,14 @@
   when: elasticsearch.install_java
   tags: java
 
-# check if already installed
-- shell: if [ -e /usr/share/elasticsearch/lib/elasticsearch-{{ elasticsearch.version }}.jar ]; then echo yes; else echo no; fi;
-  register: version_exists
-  always_run: True
+- name: Add Elasticsearch repository
+  apt_repository: repo="deb http://packages.elasticsearch.org/elasticsearch/{{ elasticsearch.version }}/debian stable main" state=present
 
-- name: Download ES deb file
-  action: get_url url={{ elasticsearch.download_url }}/elasticsearch-{{ elasticsearch.version }}.deb dest=/tmp/
-  when: version_exists.stdout == 'no'
+- name: Add Elasticsearch repository key
+  apt_key: url="http://packages.elasticsearch.org/GPG-KEY-elasticsearch" state=present
 
-# Uninstall previous version if applicable
-- name: Uninstalling previous version if applicable
-  shell: dpkg --remove elasticsearch
-  when: version_exists.stdout == 'no'
-- file: path=/usr/share/elasticsearch state=absent
-  when: version_exists.stdout == 'no'
-
-- name: Install ES deb
-  shell: dpkg -i --force-confnew /tmp/elasticsearch-{{ elasticsearch.version }}.deb
-  when: version_exists.stdout == 'no'
+- name: Install Elasticsearch
+  apt: pkg=elasticsearch update_cache=yes state=present
 
 - name: ES configuration
   template: src=elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml

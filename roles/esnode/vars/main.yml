@@ -1,11 +1,5 @@
-
 elasticsearch:
-  dependencies:
-    - 'default-jre'
-  user: 'elasticsearch'
-  group: 'elasticsearch'
-  download_url: 'https://download.elasticsearch.org/elasticsearch/elasticsearch'
-  version: '1.2.1'
+  version: '1.2'
   install_java: true
 
   # configuration options

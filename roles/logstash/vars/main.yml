@@ -1,6 +1,7 @@
 # Find aggregator's IP address from the inventory vars
 aggregator_bind_iface: "{{ hostvars[groups['aggregator'][0]].get('main_iface', 'eth0') }}"
 aggregator_bind_ip: "{{ hostvars[groups['aggregator'][0]]['ansible_' + aggregator_bind_iface ].ipv4.address }}"
+aggregator_redis_port: 6380
 
 logstash:
     version: 1.4
