@@ -1,12 +1,5 @@
 ---
-- name: Install Elasticsearch nodes
-  hosts: esnodes
-  sudo: yes
-  tags: elasticsearch
-  roles:
-    - esnode
-
-- name: Install Logstash, Redis and Kibana on a central node
+- name: Install the Packetbeat central node
   hosts: aggregator
   sudo: yes
   tags: aggregator
@@ -14,6 +7,13 @@
     - esnode
     - aggregator
     - kibana
+
+- name: Install extra Elasticsearch nodes
+  hosts: esnodes
+  sudo: yes
+  tags: elasticsearch
+  roles:
+    - esnode
 
 - name: Install the Packetbeat and Logstash agents
   hosts: apps
