@@ -4,6 +4,13 @@
 - include: redhat.yml
   when: ansible_os_family == 'RedHat'
 
+- name: Logstash set heap size
+  action: >
+     lineinfile dest=/etc/init.d/logstash state=present
+     regexp="^LS_HEAP_SIZE="
+     line='LS_HEAP_SIZE="{{logstash.config.heap_size|int}}m"'
+  notify: Restart Logstash
+
 - name: Install logstash fileinput configuration files
   template: src=logstash_fileinput.conf dest=/etc/logstash/conf.d/00logstash_{{ item.key }}.conf
   with_dict: logstash.config.file_inputs

@@ -9,16 +9,8 @@
    - python-apt
   tags: deps
 
-- name: Have Redis listen on all interfaces
-  lineinfile: dest=/etc/redis/redis.conf regexp="^bind " line="bind 0.0.0.0"
-  notify: Restart Redis
-
-- name: Change Redis default port
-  lineinfile: dest=/etc/redis/redis.conf regexp="^port " line="port {{ aggregator.config.redis_port }}"
-  notify: Restart Redis
-
-- name: Disable Redis background saving
-  replace: dest=/etc/redis/redis.conf regexp="^save (.+)$" replace="#save \1"
+- name: Configure Redis
+  template: src=redis.conf dest=/etc/redis/redis.conf
   notify: Restart Redis
 
 - name: Add Logstash repository
@@ -32,6 +24,13 @@
   with_items:
    - logstash
    - logstash-contrib
+
+- name: Logstash set heap size
+  action: >
+     lineinfile dest=/etc/init.d/logstash state=present
+     regexp="^LS_HEAP_SIZE="
+     line='LS_HEAP_SIZE="{{aggregator.config.logstash_heap_size|int}}m"'
+  notify: Restart Logstash
 
 - name: Install Logstash packetbeat configuration
   template: src=logstash_packetbeat.conf dest=/etc/logstash/conf.d/logstash_packetbeat.conf

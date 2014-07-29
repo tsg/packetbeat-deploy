@@ -7,6 +7,8 @@ logstash:
     version: 1.4
 
     config:
+        heap_size: 64
+
         file_inputs:
             syslog:
                 enabled: true

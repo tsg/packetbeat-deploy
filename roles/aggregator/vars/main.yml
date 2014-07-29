@@ -7,7 +7,10 @@ aggregator:
         redis_port: 6380
 
         redis_packetbeat_key: "packetbeat"
-        elasticsearch_cluster_name: "elasticsearch"
+        elasticsearch_cluster_name: "packetbeat"
+
+        logstash_heap_size: 64
+        redis_maxmemory: 64
 
 # Auto-detect IP address to bind on based on the configured network interface
 aggregator_bind_ip: "{{ hostvars[inventory_hostname]['ansible_' + aggregator.config.bind_iface ].ipv4.address }}"
