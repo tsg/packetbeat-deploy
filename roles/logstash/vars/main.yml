@@ -12,11 +12,15 @@ logstash:
         file_inputs:
             syslog:
                 enabled: true
-                path: "/var/log/syslog"
+                path:
+                        - "/var/log/syslog"
+                        - "/var/log/messages"
             nginx_access:
                 enabled: true
-                path: "/var/log/nginx/access.log"
+                path:
+                        - "/var/log/nginx/access.log"
             nginx_error:
                 enabled: true
-                path: "/var/log/nginx/error.log"
+                path:
+                        - "/var/log/nginx/error.log"
 
