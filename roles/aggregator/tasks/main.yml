@@ -11,9 +11,11 @@
   tags: deps
 
 - easy_install: name=pip
+  tags: deps
 
 - name: Install ES Curator
   pip: name=elasticsearch-curator
+  tags: deps
 
 - name: Configure Redis
   template: src=redis.conf dest=/etc/redis/redis.conf
@@ -42,7 +44,7 @@
   template: src=logstash_packetbeat.conf dest=/etc/logstash/conf.d/logstash_packetbeat.conf
   notify: Restart Logstash
 
-- name: Configure curator for Packetbeat
+- name: Schedule curator for Packetbeat
   cron: >
         name='Curate Packetbeat'
         hour=2 minute=15
@@ -50,7 +52,7 @@
         user=elasticsearch cron_file=packetbeat
 
 
-- name: Configure curator for Logstash
+- name: Schedule curator for Logstash
   cron: >
         name='Curate Logstash'
         hour=3 minute=15
