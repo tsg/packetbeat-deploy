@@ -2,7 +2,6 @@
 - name: Install the Packetbeat central node
   hosts: aggregator
   sudo: yes
-  tags: aggregator
   roles:
     - esnode
     - aggregator
@@ -11,14 +10,12 @@
 - name: Install extra Elasticsearch nodes
   hosts: esnodes
   sudo: yes
-  tags: elasticsearch
   roles:
     - esnode
 
 - name: Install the Packetbeat and Logstash agents
   hosts: apps
   sudo: yes
-  tags: apps
   roles:
     - packetbeat
     - logstash
