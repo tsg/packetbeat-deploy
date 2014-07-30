@@ -2,7 +2,8 @@ aggregator:
     logstash_version: "1.4"
 
     config:
-        bind_iface: "{{ hostvars[inventory_hostname].get('main_iface', 'eth0') }}"
+
+        days_of_history: 3
 
         redis_port: 6380
 
@@ -13,4 +14,7 @@ aggregator:
         redis_maxmemory: 64
 
 # Auto-detect IP address to bind on based on the configured network interface
-aggregator_bind_ip: "{{ hostvars[inventory_hostname]['ansible_' + aggregator.config.bind_iface ].ipv4.address }}"
+aggregator_bind_iface: "{{ hostvars[inventory_hostname].get('main_iface', 'eth0') }}"
+aggregator_bind_ip: "{{ hostvars[inventory_hostname]['ansible_' + aggregator_bind_iface ].ipv4.address }}"
+
+curator_bin: "python /usr/local/lib/python2.7/dist-packages/curator/curator.py"

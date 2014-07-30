@@ -2,12 +2,18 @@
   apt: pkg=redis-server state=present update_cache=yes
   tags: deps
 
-- name: Install python-pycurl and python-apt
+- name: Install dependencies
   apt: pkg={{ item }} update_cache=yes state=present
   with_items:
    - python-pycurl
    - python-apt
+   - python-setuptools
   tags: deps
+
+- easy_install: name=pip
+
+- name: Install ES Curator
+  pip: name=elasticsearch-curator
 
 - name: Configure Redis
   template: src=redis.conf dest=/etc/redis/redis.conf
@@ -35,3 +41,18 @@
 - name: Install Logstash packetbeat configuration
   template: src=logstash_packetbeat.conf dest=/etc/logstash/conf.d/logstash_packetbeat.conf
   notify: Restart Logstash
+
+- name: Configure curator for Packetbeat
+  cron: >
+        name='Curate Packetbeat'
+        hour=2 minute=15
+        job="{{ curator_bin }} -D -p packetbeat- -d {{ aggregator.config.days_of_history }}"
+        user=elasticsearch cron_file=packetbeat
+
+
+- name: Configure curator for Logstash
+  cron: >
+        name='Curate Logstash'
+        hour=3 minute=15
+        job="{{ curator_bin }} -D -p logstash- -d {{ aggregator.config.days_of_history }}"
+        user=elasticsearch cron_file=packetbeat
