@@ -1,6 +1,6 @@
 [aggregator]
 aggregator:2303 main_iface=eth1
 
-[apps]
+[app-servers]
 app-deb-1:2304
 app-centos-1:2305

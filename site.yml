@@ -14,7 +14,7 @@
     - esnode
 
 - name: Install the Packetbeat and Logstash agents
-  hosts: apps
+  hosts: app-servers
   sudo: yes
   roles:
     - packetbeat
