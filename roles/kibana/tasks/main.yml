@@ -32,6 +32,12 @@
 - name: Nginx start
   service: name=nginx state=started
 
+- name: Set ES URL in Kibana configuration
+  lineinfile: >
+    dest=/var/www/kibana/config.js
+    regexp="^[ \t]*elasticsearch: "
+    line='    elasticsearch: {{ kibana.config.elasticsearch_url }},'
+
 - name: Set default dashboard
   lineinfile: >
     dest=/var/www/kibana/config.js
