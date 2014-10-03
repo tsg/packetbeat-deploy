@@ -5,7 +5,7 @@
   apt_key: url="http://packages.elasticsearch.org/GPG-KEY-elasticsearch" state=present
 
 - name: Install Logstash
-  apt: pkg={{ item }} update_cache=yes state=present
+  apt: pkg={{ item }} update_cache=yes state=latest
   with_items:
    - logstash
    - logstash-contrib

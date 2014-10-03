@@ -1,6 +1,6 @@
 ---
 - name: Install Java7
-  apt: pkg=java7-runtime-headless update_cache=yes state=present
+  apt: pkg=java7-runtime-headless update_cache=yes state=latest
   tags: deps
 
 - name: Add Elasticsearch repository
@@ -10,7 +10,7 @@
   apt_key: url="http://packages.elasticsearch.org/GPG-KEY-elasticsearch" state=present
 
 - name: Install Elasticsearch
-  apt: pkg=elasticsearch update_cache=yes state=present
+  apt: pkg=elasticsearch update_cache=yes state=latest
 
 - name: ES configuration
   template: src=elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml
