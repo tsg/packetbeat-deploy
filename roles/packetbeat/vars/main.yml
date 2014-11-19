@@ -1,5 +1,5 @@
 packetbeat:
-    version: 0.3.3
+    version: 0.4.0
 
     deb:
         arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else 'i386' }}"
