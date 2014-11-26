@@ -9,4 +9,4 @@
   notify: Restart Packetbeat
 
 - name: Start Packetbeat
-  service: name=packetbeat state=started
+  service: name=packetbeat state=started enabled=yes

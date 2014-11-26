@@ -24,7 +24,7 @@
   notify: Restart ES
 
 - name: Start ES
-  service: name=elasticsearch state=started
+  service: name=elasticsearch state=started enabled=yes
 
 - name: Wait for ES to start
   wait_for: host={{ elasticsearch_bind_ip }} port=9200

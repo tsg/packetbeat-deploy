@@ -21,4 +21,4 @@
   notify: Restart Logstash
 
 - name: Start Logstash
-  service: name=logstash state=started
+  service: name=logstash state=started enabled=yes
