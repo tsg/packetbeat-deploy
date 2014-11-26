@@ -19,11 +19,7 @@ To bring the test system up, do the following:
 Add the SSH connection information to your SSH config, from where Ansible can
 read it:
 
-        vagrant ssh-config esnode1 >> ~/.ssh/config
-        vagrant ssh-config esnode2 >> ~/.ssh/config
-        vagrant ssh-config aggregator >> ~/.ssh/config
-        vagrant ssh-config app-deb-1 >> ~/.ssh/config
-        vagrant ssh-config app-centos-1 >> ~/.ssh/config
+        vagrant ssh-config >> ~/.ssh/config
 
 Now you are ready to run the Ansible roles:
 

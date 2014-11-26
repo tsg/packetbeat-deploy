@@ -14,22 +14,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define "esnode1" do |esnode|
         esnode.vm.box = "esnode1"
 
-        esnode.vm.network "forwarded_port", guest: 22, host: 2301
+        esnode.ssh.port = 2301
+        esnode.vm.network "forwarded_port", guest: 22, host: esnode.ssh.port
         esnode.vm.network "private_network", ip: "192.168.33.11"
-
     end
 
     config.vm.define "esnode2" do |esnode|
         esnode.vm.box = "esnode2"
 
-        esnode.vm.network "forwarded_port", guest: 22, host: 2302
+        esnode.ssh.port = 2302
+        esnode.vm.network "forwarded_port", guest: 22, host: esnode.ssh.port
         esnode.vm.network "private_network", ip: "192.168.33.12"
     end
 
     config.vm.define "aggregator" do |aggregator|
         aggregator.vm.box = "aggregator"
 
-        aggregator.vm.network "forwarded_port", guest: 22, host: 2303
+        aggregator.ssh.port = 2303
+        aggregator.vm.network "forwarded_port", guest: 22, host: aggregator.ssh.port
         aggregator.vm.network "private_network", ip: "192.168.33.13"
     end
     config.vm.synced_folder ".", "/vagrant"
@@ -37,7 +39,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define "app-deb-1" do |app|
         app.vm.box = "app-deb-1"
 
-        app.vm.network "forwarded_port", guest: 22, host: 2304
+        app.ssh.port = 2304
+        app.vm.network "forwarded_port", guest: 22, host: app.ssh.port
         app.vm.network "private_network", ip: "192.168.33.14"
     end
     config.vm.synced_folder ".", "/vagrant"
@@ -46,7 +49,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         app.vm.box = "app-centos-1"
         app.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box"
 
-        app.vm.network "forwarded_port", guest: 22, host: 2305
+        app.ssh.port = 2305
+        app.vm.network "forwarded_port", guest: 22, host: app.ssh.port
         app.vm.network "private_network", ip: "192.168.33.15"
     end
     config.vm.synced_folder ".", "/vagrant"
