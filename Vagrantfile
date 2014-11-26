@@ -47,7 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.define "app-centos-1" do |app|
         app.vm.box = "app-centos-1"
-        app.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box"
+        app.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
 
         app.ssh.port = 2305
         app.vm.network "forwarded_port", guest: 22, host: app.ssh.port
