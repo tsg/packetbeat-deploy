@@ -44,6 +44,9 @@
   template: src=logstash_packetbeat.conf dest=/etc/logstash/conf.d/logstash_packetbeat.conf
   notify: Restart Logstash
 
+- name: Start Logstash
+  service: name=elasticsearch state=started enabled=yes
+
 - name: Schedule curator for Packetbeat
   cron: >
         name='Curate Packetbeat'
