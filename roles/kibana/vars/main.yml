@@ -1,6 +1,6 @@
 kibana:
-    url: https://github.com/packetbeat/kibana/releases/download/v3.1.0-pb
-    archive: kibana-3.1.0-packetbeat.tar.gz
+    url: https://github.com/packetbeat/kibana/releases/download/v3.1.2-pb
+    archive: kibana-3.1.2-packetbeat.tar.gz
 
     config:
         server_name: "localhost"
