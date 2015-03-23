@@ -381,12 +381,6 @@ index.indexing.slowlog.threshold.index.trace: 500ms
 
 ################################## Security ####################################
 
-{% if elasticsearch.config.disable_scripting %}
-# Disable scripting by default due to security concerns
-script.disable_dynamic: true
-rest.action.multi.allow_explicit_index: false
-{% endif %}
-
 {% if elasticsearch.config.limit_cache_size %}
 # Limit cache sizes to avoid DoS attacks
 indices.fielddata.cache.size: 50%
