@@ -8,7 +8,6 @@ aggregator:
         redis_port: 6380
 
         redis_packetbeat_key: "packetbeat"
-        elasticsearch_cluster_name: "packetbeat"
 
         logstash_heap_size: 64
         redis_maxmemory: 64
