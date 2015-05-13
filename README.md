@@ -31,8 +31,6 @@ interface.
 
 ## Deploy steps (high level overview - more details below)
 
-It's easier than you would think:
-
 **Step 1:** Spin up one or more Virtual Machines that will host the monitoring system.
 
 **Step 2:** Clone or download this GitHub project:
@@ -59,9 +57,7 @@ It's easier than you would think:
 ## Tutorial
 
 The following sections cover in detail the steps you need to take to build your
-own application monitoring + log aggregation system. Don't let the amount of
-text below discourage you, everything is quite simple and completing it
-shouldn't take more than 30 minutes.
+own packet analytics and log aggregation system.
 
 ### Step 1: Decide on the architecture and get servers
 
