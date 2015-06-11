@@ -6,7 +6,7 @@
   tags: deps
 
 - name: Install Java7
-  apt: pkg=java7-runtime-headless update_cache=yes state=latest
+  apt: pkg=openjdk-7-jre-headless update_cache=yes state=latest
   tags: deps
 
 - name: Add Elasticsearch repository
