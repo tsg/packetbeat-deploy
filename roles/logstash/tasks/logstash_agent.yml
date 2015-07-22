@@ -1,0 +1,32 @@
+---
+
+- name: Logstash set heap size
+  action: >
+     lineinfile dest=/etc/init.d/logstash state=present
+     regexp="^LS_HEAP_SIZE="
+     line='LS_HEAP_SIZE="{{logstash.config.heap_size|int}}m"'
+  notify: Restart Logstash
+
+- name: Install Logstash 
+  apt: pkg={{ item }} update_cache=yes state=latest
+  with_items:
+   - logstash
+
+
+- name: Install logstash fileinput configuration files
+  template: src=logstash_fileinput.conf dest=/etc/logstash/conf.d/00logstash_{{ item.key }}.conf
+  with_dict: logstash_file_inputs
+  notify: Restart Logstash
+
+- name: Install logstash output configuration file
+  template: src=logstash_output.conf dest=/etc/logstash/conf.d/99logstash_output.conf
+  notify: Restart Logstash
+
+- name: Give logstash access to "{{ item.1 }}" log 
+  shell: setfacl -m u:logstash:r "{{ item.1 }}"
+  with_subelements: 
+    - logstash_file_inputs
+    - path 
+
+- name: Start Logstash
+  service: name=logstash state=started enabled=yes

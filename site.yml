@@ -19,3 +19,5 @@
   roles:
     - packetbeat
     - logstash
+    # or
+    # - beaver

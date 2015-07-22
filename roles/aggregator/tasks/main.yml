@@ -31,7 +31,12 @@
   apt: pkg={{ item }} update_cache=yes state=present
   with_items:
    - logstash
-   - logstash-contrib
+
+- name: Work-around to logstash init files not being set up
+  shell: "{{ item }}"
+  with_items:
+    - update-rc.d logstash defaults
+    - update-rc.d logstash-web defaults
 
 - name: Logstash set heap size
   action: >

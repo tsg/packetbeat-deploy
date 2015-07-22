@@ -1,0 +1,22 @@
+; {{ ansible_managed }}
+[beaver]
+redis_url: redis://{{ aggregator_bind_ip }}:{{ aggregator_redis_port }}/0
+redis_namespace: logstash
+logstash_version: 1
+
+; follow all logs in /var/log except those with `messages` or `secure` in the name.
+; The exclude tag must be a valid python regular expression.
+{% for type, attribs in logstash_file_inputs.iteritems() %}
+{% for path in attribs.path %} 
+[{{ path }}]
+{% if 'type' in attribs %}
+type: {{ attribs.type | default('syslog') }} 
+{% endif %}
+{% if 'tags' in attribs %}
+tags: {{ attribs.tags }} 
+{% endif %}
+{% if 'exclude' in attribs %}
+exclude: {{ attribs.exclude }} 
+{% endif %}
+{% endfor %}
+{% endfor %}

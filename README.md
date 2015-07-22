@@ -224,54 +224,117 @@ organized per role, so you have too look into the ``vars`` folder of each role:
     roles/esnode/vars/main.yml
     roles/aggregator/vars/main.yml
     roles/kibana/vars/main.yml
-    roles/packetbeat/vars/main.yml
-    roles/logstash/vars/main.yml
+    roles/packetbeat/defaults/main.yml
+    roles/logstash/defaults/main.yml
+    roles/beaver/defaults/main.yml
+
+Of note here is that you can chose from two different log shippers: Logstash Java-based
+and Beaver Python-based. It depends entirely on prefernce for a given deployment. Some prefer 
+prefer not to have an entire JVM on a smaller server that has only apache or nginx 
+processes running.
+
+The variables used for both shippers are mostly the same. Please refer to the defaults for both
+as examples.
+
+
+As far as having different log files per type of server, using ```host_vars```
+or ```group_vars``` files is desireable as to not require modification of the 
+packetbeat-deploy repository directly.
 
 In particular you might want to ship different log files from the logstash
-configuration:
+configuration. You can do this by creating a group_vars or host_vars file 
+for a given host or group. For instance, in roles/logstash/defaults, the 
+defaults are:
 
-    # roles/logstash/vars/main.yml
+    # roles/logstash/defaults/main.yml
     ...
-        file_inputs:
-            syslog:
-                enabled: true
-                path:
-                        - "/var/log/syslog"
-                        - "/var/log/messages"
-            nginx_access:
-                enabled: true
-                path:
-                        - "/var/log/nginx/access.log"
-            nginx_error:
-                enabled: true
-                path:
-                        - "/var/log/nginx/error.log"
+    logstash_file_inputs:
+       syslog:
+           enabled: true
+           path:
+               - "/var/log/syslog"
+               - "/var/log/messages"
+
+Though, you may have web servers running nginx, in that case, you might have a 
+```group_vars/web``` file from where you run your playbook, and that file would
+look like:
+
     ...
+    logstash_file_inputs:
+        syslog:
+            enabled: true
+            path:
+                - "/var/log/syslog"
+                - "/var/log/messages"
+        nginx_access:
+            enabled: true
+            path:
+                - "/var/log/nginx/access.log"
+        nginx_error:
+            enabled: true
+            path:
+                - "/var/log/nginx/error.log"
+    ...
+
+And a mysql instance which would be specified by ```host_vars/mysql-master```
+
+    ...
+    logstash_file_inputs:
+        syslog:
+            enabled: true
+            path:
+                - "/var/log/syslog"
+                - "/var/log/messages"
+        mysql:
+            enabled: true 
+            path:
+                - "/var/log/mysql/mysql.err"
+                - "/var/log/mysql/mysql-slow.log"
 
 You might also want to adjust the TCP ports that the Packetbeat agent sniffs
 on:
 
-    # roles/packetbeat/vars/main.yml
+    # roles/packetbeat/defaults/main.yml
     ...
-        protocols:
-            http:
-                enabled: true
-                ports:
-                    - 80
-                    - 8080
-            mysql:
-                enabled: true
-                ports:
-                    - 3306
-            pgsql:
-                enabled: true
-                ports:
-                    - 5432
-            redis:
-                enabled: true
-                ports:
-                    - 6379
+    packetbeat_protocols:
+        http:
+            enabled: true
+            ports:
+                - 80
+                - 8080
+        mysql:
+            enabled: true
+            ports:
+                - 3306
+        pgsql:
+            enabled: true
+            ports:
+                - 5432
+        redis:
+            enabled: true
+            ports:
+                - 6379
+    packetbeat_processes:
+        mysqld:
+            enabled: true
+            cmdline_grep: "mysqld"
+        pgsql:
+            enabled: true
+            cmdline_grep: "postgres"
+        nginx:
+            enabled: true
+            cmdline_grep: "nginx"
+        redis:
+            enabled: true
+            cmdline_grep: "redis"
     ...
+
+Just as the example for logstash above showed how these defaults can be
+overridden by using either a ```group_vars``` or ```host_vars``` file, 
+the same can be done with the packetbeat role.
+
+For more information on ```group_vars``` and ```host_vars```, refer to 
+[Ansible documentation](http://docs.ansible.com/ansible/playbooks_variables.html)
 
 If your application doesn't use some of the protocols above, simply set
 ``enabled`` to false to disable them.
@@ -280,10 +343,11 @@ Another important setting is the amount of history the Packetbeat Monitoring
 System stores. A nightly curator task will delete all indexes older than a
 given amount of days. The default is 3 days, which we think is usually enough
 for troubleshooting while keeping the disk requirements relatively low. You can
-change it from the *Aggregator* ``vars`` file:
+change it from the *Aggregator* ``vars`` file, though it is recommended to use 
+```group_vars/all``` so you don't have to modify the packetbeat_deploy repository:
 
 
-    # roles/aggregator/vars/main.yml
+    # group_vars/all
     aggregator:
         ...
         config:

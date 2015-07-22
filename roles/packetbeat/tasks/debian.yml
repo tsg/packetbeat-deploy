@@ -1,3 +1,6 @@
+- name: Install Debian SSL certs 
+  apt: pkg=ca-certificates state=present update_cache=yes 
+
 - name: Install Packetbeat dependencies
   apt: pkg={{ item }} state=present update_cache=yes
   with_items:

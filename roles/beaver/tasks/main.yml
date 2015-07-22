@@ -1,0 +1,22 @@
+---
+
+- name: Install python PIP 
+  apt: name=python-pip state=present
+
+- name: Install beaver
+  pip: name=beaver
+
+- name: Create beaver conf directory
+  file: path=/etc/beaver state=directory
+
+- name: Install beaver configuration file
+  template: src=beaver.conf.j2 dest=/etc/beaver/conf
+
+- name: Copy init file to /etc/init.d
+  copy: src=beaver.{{ ansible_os_family }}.init dest=/etc/init.d/beaver mode=0755
+
+- name: register beaver init file
+  command: "{{ item }}"
+  notify: restart beaver 
+  with_items:
+    - update-rc.d beaver defaults
