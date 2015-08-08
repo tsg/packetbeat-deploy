@@ -20,3 +20,12 @@
   notify: restart beaver 
   with_items:
     - update-rc.d beaver defaults
+
+- name: make sure /usr/local/bin exists
+  file: path=/usr/local/bin state=directory
+
+- name: Copy service checking script to /usr/local/bin 
+  copy: src=service_check.sh dest=/usr/local/bin/service_check.sh mode=0755
+
+- name: add crontab entry for service check
+  cron: name="beaver" user=root cron_file=beaver minute="*" job="/usr/local/service_check.sh beaver"
