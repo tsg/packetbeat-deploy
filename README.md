@@ -4,7 +4,7 @@ Ansible roles for Packetbeat + ELK
 This repository contains automation scripts based on Ansible for deploying the
 full Packetbeat system. It is a quick way of getting everything up and running.
 
-It will install the following compoenets for you:
+It will install the following components for you:
 
 * [Packetbeat](http://packetbeat.com) reads and parses network protocols on the
   fly, correlating the requests with the responses and measuring the response times.
