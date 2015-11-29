@@ -1,0 +1,28 @@
+---
+# don't use this as a default. Override it with host_vars or group_vars
+# for the type of host and specific thing you want to ship logs for. 
+# this is a sane default but not for production.
+
+logstash_file_inputs:
+    syslog:
+        tags: sys
+        type: syslog
+        path:
+            - "/var/log/*.log"
+        exclude: "(messages|secure)" 
+    nginx_access:
+        tags: nginx
+        type: nginx
+        path:
+            - "/var/log/nginx/access.log"
+    nginx_error:
+        tags: nginx 
+        type: nginx
+        path:
+            - "/var/log/nginx/error.log"
+    
+
+# Find aggregator's IP address from the inventory vars
+aggregator_bind_iface: "{{ hostvars[groups['aggregator'][0]].get('main_iface', 'eth0') }}"
+aggregator_bind_ip: "{{ hostvars[groups['aggregator'][0]]['ansible_' + aggregator_bind_iface ].ipv4.address }}"
+aggregator_redis_port: 6380

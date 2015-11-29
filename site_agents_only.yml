@@ -1,0 +1,13 @@
+---
+- name: Gather aggregator facts 
+  hosts: aggregator
+  gather_facts: yes 
+
+- name: Install the Packetbeat and Logstash agents
+  hosts: app-servers
+  sudo: yes
+  roles:
+    - packetbeat
+    - logstash
+    # or
+    # - beaver

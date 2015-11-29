@@ -1,0 +1,77 @@
+#!/bin/bash
+#
+# beaver      Startup script for beaver.
+#
+# chkconfig: 2345 13 87
+# description: beaver is the facility by which logs are delivered to logstash
+### BEGIN INIT INFO
+# Provides: beaver
+# Required-Start: $syslog
+# Required-Stop: $local_fs
+# Default-Start:  2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Logstash shipper
+# Description: $DESC is a small python utility for shipping logs to logstash
+### END INIT INFO
+
+set -e
+
+NAME=beaver
+DAEMON=/usr/local/bin/${NAME}
+RETVAL=0
+PIDDIR=/var/run
+PIDFILE=${PIDDIR}/${NAME}.pid
+DAEMON_CONF=/etc/beaver/conf
+DAEMON_OPTS="-t redis -P ${PIDFILE} -D"
+
+if ! [ -x "/lib/lsb/init-functions" ]; then
+    . /lib/lsb/init-functions
+else
+    echo "E: /lib/lsb/init-functions not found, lsb-base (>= 3.0-6) needed"
+    exit 1
+fi
+
+if test -f /etc/default/${NAME}; then
+    . /etc/default/${NAME}
+fi
+
+if [ "$NICENESS" ]; then NICENESS="-n $NICENESS"; fi
+
+# Are we running from init?
+run_by_init() {
+    ([ "$previous" ] && [ "$runlevel" ]) || [ "$runlevel" = S ]
+}
+case "$1" in
+  start)
+        [ -x $DAEMON ] || exit 5
+        [ -f $DAEMON_CONF ] || exit 7
+        log_daemon_msg "Starting $DESC" "$NAME"
+
+        start_daemon -p /var/run/${NAME}.pid $NICENESS $DAEMON -c $DAEMON_CONF $DAEMON_OPTS
+        log_end_msg $? 
+        ;;
+  stop)
+        log_daemon_msg "Stopping $DESC logstash shipper" "$NAME" 
+        start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/${NAME}.pid --retry 15
+        log_end_msg $? 
+        ;;
+  reload|force-reload)
+	log_daemon_msg "Reloading $DESC configuration files" "$NAME"
+	start-stop-daemon --stop --signal HUP --quiet --pidfile $PIDDIR/${NAME}.pid
+	log_end_msg $?
+	;;
+  status)
+    status_of_proc -p $PIDDIR/$NAME.pid "$DAEMON" "$NAME" && exit 0 || exit $?
+    ;;
+  restart)
+	$0 stop
+	sleep 1
+	$0 start
+	;;
+  *)
+	log_failure_msg "Usage: $N {start|stop|restart|reload|force-reload}" 
+	exit 1
+	;;
+esac
+
+exit 0

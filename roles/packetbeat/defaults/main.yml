@@ -22,38 +22,38 @@ packetbeat:
                 port: 6380
                 save_topology: "true"
 
-        protocols:
-            http:
-                enabled: true
-                ports:
-                    - 80
-                    - 8080
-            mysql:
-                enabled: true
-                ports:
-                    - 3306
-            pgsql:
-                enabled: true
-                ports:
-                    - 5432
-            redis:
-                enabled: true
-                ports:
-                    - 6379
+packetbeat_protocols:
+    http:
+        enabled: true
+        ports:
+            - 80
+            - 8080
+    mysql:
+        enabled: true
+        ports:
+            - 3306
+    pgsql:
+        enabled: true
+        ports:
+            - 5432
+    redis:
+        enabled: true
+        ports:
+            - 6379
 
-        processes:
-            mysqld:
-                enabled: true
-                cmdline_grep: "mysqld"
-            pgsql:
-                enabled: true
-                cmdline_grep: "postgres"
-            nginx:
-                enabled: true
-                cmdline_grep: "nginx"
-            redis:
-                enabled: true
-                cmdline_grep: "redis"
+packetbeat_processes:
+    mysqld:
+        enabled: true
+        cmdline_grep: "mysqld"
+    pgsql:
+        enabled: true
+        cmdline_grep: "postgres"
+    nginx:
+        enabled: true
+        cmdline_grep: "nginx"
+    redis:
+        enabled: true
+        cmdline_grep: "redis"
 
 # Find aggregator's IP address from the inventory vars
 aggregator_bind_iface: "{{ hostvars[groups['aggregator'][0]].get('main_iface', 'eth0') }}"

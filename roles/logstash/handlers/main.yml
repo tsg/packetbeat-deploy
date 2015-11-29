@@ -1,2 +1,5 @@
 - name: Restart Logstash
   service: name=logstash state=restarted
+
+- name: restart beaver 
+  service: name=beaver state=restarted

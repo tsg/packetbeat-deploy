@@ -1,9 +1,8 @@
 
 - name: Add Logstash repos
-  template: src=logstash.repo dest=/etc/yum.repos.d/logstash-{{ logstash.version }}.repo
+  template: src=logstash.repo dest=/etc/yum.repos.d/logstash-{{ logstash.config.version }}.repo
 
 - name: Install Logstash
   yum: name={{ item }} state=present
   with_items:
    - logstash
-   - logstash-contrib
